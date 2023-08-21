@@ -1,0 +1,58 @@
+Root {
+    children: [
+        Rule {
+            selector: TokenNode {
+                source: ":xx ",
+                loc: PositionLoc {
+                    start: Position {
+                        offset: 0,
+                        line: 0,
+                        column: 0,
+                    },
+                    end: Position {
+                        offset: 4,
+                        line: 0,
+                        column: 4,
+                    },
+                },
+                is_syntax: false,
+            },
+            children: [
+                Declaration {
+                    key: TokenNode {
+                        source: "\n               --good",
+                        loc: PositionLoc {
+                            start: Position {
+                                offset: 5,
+                                line: 0,
+                                column: 5,
+                            },
+                            end: Position {
+                                offset: 28,
+                                line: 1,
+                                column: 22,
+                            },
+                        },
+                        is_syntax: false,
+                    },
+                    value: TokenNode {
+                        source: "red",
+                        loc: PositionLoc {
+                            start: Position {
+                                offset: 29,
+                                line: 1,
+                                column: 23,
+                            },
+                            end: Position {
+                                offset: 32,
+                                line: 1,
+                                column: 26,
+                            },
+                        },
+                        is_syntax: false,
+                    },
+                },
+            ],
+        },
+    ],
+}

@@ -1,0 +1,9 @@
+[package]
+name = "tokenize"
+version = "0.1.0"
+edition = "2021"
+
+
+[lib]
+name = "tokenize"
+path = "src/lib.rs"

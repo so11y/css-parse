@@ -1,0 +1,200 @@
+Root {
+    children: [
+        Rule {
+            selector: TokenNode {
+                source: ".a .p > .x ",
+                loc: PositionLoc {
+                    start: Position {
+                        offset: 0,
+                        line: 0,
+                        column: 0,
+                    },
+                    end: Position {
+                        offset: 11,
+                        line: 0,
+                        column: 11,
+                    },
+                },
+                is_syntax: false,
+            },
+            children: [
+                Declaration {
+                    key: TokenNode {
+                        source: "\n               color",
+                        loc: PositionLoc {
+                            start: Position {
+                                offset: 12,
+                                line: 0,
+                                column: 12,
+                            },
+                            end: Position {
+                                offset: 34,
+                                line: 1,
+                                column: 21,
+                            },
+                        },
+                        is_syntax: false,
+                    },
+                    value: TokenNode {
+                        source: "calc(1px + 20px) ",
+                        loc: PositionLoc {
+                            start: Position {
+                                offset: 35,
+                                line: 1,
+                                column: 22,
+                            },
+                            end: Position {
+                                offset: 52,
+                                line: 1,
+                                column: 39,
+                            },
+                        },
+                        is_syntax: false,
+                    },
+                },
+                Declaration {
+                    key: TokenNode {
+                        source: "\n               font-size",
+                        loc: PositionLoc {
+                            start: Position {
+                                offset: 53,
+                                line: 1,
+                                column: 40,
+                            },
+                            end: Position {
+                                offset: 79,
+                                line: 2,
+                                column: 25,
+                            },
+                        },
+                        is_syntax: false,
+                    },
+                    value: TokenNode {
+                        source: "15px ",
+                        loc: PositionLoc {
+                            start: Position {
+                                offset: 80,
+                                line: 2,
+                                column: 26,
+                            },
+                            end: Position {
+                                offset: 85,
+                                line: 2,
+                                column: 31,
+                            },
+                        },
+                        is_syntax: false,
+                    },
+                },
+            ],
+        },
+        Rule {
+            selector: TokenNode {
+                source: "\n           .gogo ",
+                loc: PositionLoc {
+                    start: Position {
+                        offset: 100,
+                        line: 3,
+                        column: 13,
+                    },
+                    end: Position {
+                        offset: 119,
+                        line: 4,
+                        column: 18,
+                    },
+                },
+                is_syntax: false,
+            },
+            children: [
+                Declaration {
+                    key: TokenNode {
+                        source: "\n               display",
+                        loc: PositionLoc {
+                            start: Position {
+                                offset: 120,
+                                line: 4,
+                                column: 19,
+                            },
+                            end: Position {
+                                offset: 144,
+                                line: 5,
+                                column: 23,
+                            },
+                        },
+                        is_syntax: false,
+                    },
+                    value: TokenNode {
+                        source: " flex",
+                        loc: PositionLoc {
+                            start: Position {
+                                offset: 145,
+                                line: 5,
+                                column: 24,
+                            },
+                            end: Position {
+                                offset: 150,
+                                line: 5,
+                                column: 29,
+                            },
+                        },
+                        is_syntax: false,
+                    },
+                },
+                Rule {
+                    selector: TokenNode {
+                        source: "\n               .haha ",
+                        loc: PositionLoc {
+                            start: Position {
+                                offset: 151,
+                                line: 5,
+                                column: 30,
+                            },
+                            end: Position {
+                                offset: 174,
+                                line: 6,
+                                column: 22,
+                            },
+                        },
+                        is_syntax: false,
+                    },
+                    children: [
+                        Declaration {
+                            key: TokenNode {
+                                source: "\n                   color",
+                                loc: PositionLoc {
+                                    start: Position {
+                                        offset: 175,
+                                        line: 6,
+                                        column: 23,
+                                    },
+                                    end: Position {
+                                        offset: 201,
+                                        line: 7,
+                                        column: 25,
+                                    },
+                                },
+                                is_syntax: false,
+                            },
+                            value: TokenNode {
+                                source: " red",
+                                loc: PositionLoc {
+                                    start: Position {
+                                        offset: 202,
+                                        line: 7,
+                                        column: 26,
+                                    },
+                                    end: Position {
+                                        offset: 206,
+                                        line: 7,
+                                        column: 30,
+                                    },
+                                },
+                                is_syntax: false,
+                            },
+                        },
+                    ],
+                },
+            ],
+        },
+    ],
+}
