@@ -1,6 +1,5 @@
 #![allow(unused_variables, dead_code)]
 
-use std::fmt;
 
 use super::position::Position;
 

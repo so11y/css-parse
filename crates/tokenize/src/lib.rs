@@ -111,7 +111,7 @@ mod tests {
              }
         ",
         );
-        let mut tokenize = Tokenize::new(input);
+        let  tokenize = Tokenize::new(input);
         let test_parse = fs::read_to_string("./src/__snapshots__/test_tokenize.snap").unwrap();
 
         assert_eq!(

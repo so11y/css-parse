@@ -1,4 +1,3 @@
-use std::fmt::{self};
 
 use tokenize::TokenNode;
 
