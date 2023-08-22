@@ -45,6 +45,7 @@ impl Parser {
                         // Token::COLON => self.prase_maybe_decl_or_rule(),
                         Token::AT => {
                             is_at = true;
+                            self.bucket.clear();
                             self.bucket.push(current_token);
                             None
                         }
@@ -136,6 +137,7 @@ impl Parser {
                             Token::OpenCurly => self.parse_rule(is_at),
                             Token::AT => {
                                 is_at = true;
+                                self.bucket.clear();
                                 self.bucket.push(current_token);
                                 None
                             }

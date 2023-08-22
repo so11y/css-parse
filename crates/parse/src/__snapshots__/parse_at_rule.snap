@@ -20,12 +20,12 @@ Root {
             children: [
                 AtRule {
                     selector: TokenNode {
-                        source: "\n               @let v = value",
+                        source: "@let v = value",
                         loc: PositionLoc {
                             start: Position {
-                                offset: 22,
-                                line: 0,
-                                column: 22,
+                                offset: 39,
+                                line: 1,
+                                column: 16,
                             },
                             end: Position {
                                 offset: 53,
@@ -39,12 +39,12 @@ Root {
                 },
                 AtRule {
                     selector: TokenNode {
-                        source: "\n               @if(v < 50)",
+                        source: "@if(v < 50)",
                         loc: PositionLoc {
                             start: Position {
-                                offset: 54,
-                                line: 1,
-                                column: 31,
+                                offset: 71,
+                                line: 2,
+                                column: 16,
                             },
                             end: Position {
                                 offset: 82,
@@ -57,12 +57,12 @@ Root {
                     children: [
                         AtRule {
                             selector: TokenNode {
-                                source: "\n                   @return 'padding-top:50px'",
+                                source: "@return 'padding-top:50px'",
                                 loc: PositionLoc {
                                     start: Position {
-                                        offset: 83,
-                                        line: 2,
-                                        column: 28,
+                                        offset: 104,
+                                        line: 3,
+                                        column: 20,
                                     },
                                     end: Position {
                                         offset: 130,
@@ -78,12 +78,12 @@ Root {
                 },
                 AtRule {
                     selector: TokenNode {
-                        source: "\n               @return 'padding-top:'+ v +'px'",
+                        source: "@return 'padding-top:'+ v +'px'",
                         loc: PositionLoc {
                             start: Position {
-                                offset: 149,
-                                line: 4,
-                                column: 17,
+                                offset: 166,
+                                line: 5,
+                                column: 16,
                             },
                             end: Position {
                                 offset: 197,
