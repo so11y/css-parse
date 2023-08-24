@@ -4,19 +4,22 @@ mod types;
 use crate::types::{AtRule, Declaration, Root, Rule, RuleOrAtRuleOrDecl};
 
 use tokenize::{Token, TokenNode, Tokenize};
+use wasm_bindgen::prelude::*;
 
-struct Parser {
+#[wasm_bindgen]
+pub struct Parser {
     tokenize: Tokenize,
     bucket: Vec<TokenNode>,
 }
 
+
 impl Parser {
-    fn new(input: String) -> Self {
+    pub fn new(input: String) -> Self {
         let tokenize = Tokenize::new(input);
         let bucket = Vec::new();
         Self { tokenize, bucket }
     }
-    fn parse_root(&mut self) -> Root {
+    pub fn parse_root(&mut self) -> Root {
         Root::new(self.parse_rule_or_at())
     }
 
@@ -33,6 +36,13 @@ impl Parser {
         Some(RuleOrAtRuleOrDecl::Rule(Rule::new(selector, children)))
     }
 
+    fn finish_at_node(&mut self) -> Option<RuleOrAtRuleOrDecl> {
+        Some(RuleOrAtRuleOrDecl::AtRule(AtRule::new(
+            self.merge_selector(),
+            Vec::new(),
+        )))
+    }
+
     fn parse_rule_or_at(&mut self) -> Vec<RuleOrAtRuleOrDecl> {
         self.bucket.clear();
         let mut children = Vec::new();
@@ -42,7 +52,6 @@ impl Parser {
                 let builder_node = match current_token.maybe_syntax() {
                     Some(token) => match token {
                         Token::OpenCurly => self.parse_rule(is_at),
-                        // Token::COLON => self.prase_maybe_decl_or_rule(),
                         Token::AT => {
                             is_at = true;
                             self.bucket.clear();
@@ -55,13 +64,9 @@ impl Parser {
                         }
                         Token::SEMICOLON => {
                             if is_at {
-                                Some(RuleOrAtRuleOrDecl::AtRule(AtRule::new(
-                                    self.merge_selector(),
-                                    Vec::new(),
-                                )))
+                                self.finish_at_node()
                             } else {
-                                self.prase_maybe_decl_or_rule()
-                                // None
+                                self.parse_decl()
                             }
                         }
                         _ => {
@@ -117,76 +122,6 @@ impl Parser {
         }
         return bucket.first().unwrap().to_owned();
     }
-
-    fn prase_maybe_decl_or_rule(&mut self) -> Option<RuleOrAtRuleOrDecl> {
-        let mut is_colon = false;
-        let mut is_at = false;
-        if self.bucket.len() > 0 {
-            if self.bucket.len() == 3
-                && self.bucket.iter().any(|t| {
-                    return t.maybe_syntax() == Some(Token::COLON);
-                })
-            {
-                return self.parse_decl();
-            };
-            while !self.tokenize.is_eof() {
-                self.tokenize.when(None);
-                if let Some(current_token) = self.tokenize.current_token.to_owned() {
-                    let builder_node = match current_token.maybe_syntax() {
-                        Some(token) => match token {
-                            Token::OpenCurly => self.parse_rule(is_at),
-                            Token::AT => {
-                                is_at = true;
-                                self.bucket.clear();
-                                self.bucket.push(current_token);
-                                None
-                            }
-                            Token::COLON => {
-                                is_colon = true;
-                                self.bucket.push(current_token);
-                                None
-                            }
-                            Token::SEMICOLON => {
-                                if is_colon {
-                                    self.parse_decl()
-                                } else {
-                                    None
-                                }
-                            }
-                            Token::CloseCurly => {
-                                self.bucket.clear();
-                                None
-                            }
-                            _ => {
-                                self.bucket.push(current_token);
-                                None
-                            }
-                        },
-                        None => {
-                            self.bucket.push(current_token);
-                            None
-                        }
-                    };
-                    if builder_node.is_some() {
-                        return builder_node;
-                    }
-                }
-            }
-        }
-        let colon_symbol = self.tokenize.current_token.to_owned().unwrap();
-        let next_selector = self.tokenize.next().unwrap();
-
-        //合并token
-        self.bucket
-            .push(TokenNode::merge(colon_symbol, next_selector));
-
-        //下一个符号是应该是 `{`
-        if !self.tokenize.when(Some(Token::OpenCurly)) {
-            panic!("syntax error");
-        }
-
-        return self.parse_rule(is_at);
-    }
 }
 
 #[cfg(test)]
@@ -212,6 +147,7 @@ mod test {
         let root = parser.parse_root();
 
         let test_parse = fs::read_to_string("./src/__snapshots__/test_parse.snap").unwrap();
+
         assert_eq!(format!("{:#?}", root), test_parse);
         // fs::write(
         //     "./src/__snapshots__/test_parse.snap",
