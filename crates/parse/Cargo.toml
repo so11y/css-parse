@@ -16,3 +16,8 @@ tokenize = { path = "../tokenize"}
 crate-type = ["cdylib", "rlib"]
 name = "prase"
 path = "src/lib.rs"
+
+
+[[bin]]
+name = "parse_main"
+path = "src/main.rs"
