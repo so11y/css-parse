@@ -2,8 +2,9 @@ mod helper;
 
 pub use helper::position::Position;
 pub use helper::token_node::{PositionLoc, Token, TokenNode};
+use serde::Serialize;
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub struct Tokenize {
     input: String,
     chars: Vec<char>,
@@ -37,7 +38,6 @@ impl Tokenize {
             let current_char = self.chars[self.position.offset as usize];
             let next_index = (self.position.offset + 1) as usize;
             if Token::is_newline(current_char) {
-                advance(&mut self.position);
                 self.position.line += 1;
                 self.position.column = 0;
             } else if Token::can_packing(current_char) {
@@ -68,7 +68,6 @@ impl Tokenize {
         }
         None
     }
-
 
     pub fn when(&mut self, token: Option<Token>) -> bool {
         let next_token = self.next();
@@ -111,7 +110,7 @@ mod tests {
              }
         ",
         );
-        let  tokenize = Tokenize::new(input);
+        let tokenize = Tokenize::new(input);
         let test_parse = fs::read_to_string("./src/__snapshots__/test_tokenize.snap").unwrap();
 
         assert_eq!(
@@ -122,6 +121,6 @@ mod tests {
         // fs::write(
         //     "./src/__snapshots__/test_tokenize.snap",
         //     format!("{:#?}", tokenize.collect::<Vec<TokenNode>>()),
-        // );
+        // ).unwrap();
     }
 }

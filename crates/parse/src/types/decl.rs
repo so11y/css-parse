@@ -1,7 +1,7 @@
 
 use tokenize::TokenNode;
-
-#[derive(Debug,Clone)]
+use serde::Serialize;
+#[derive(Debug,Clone,Serialize)]
 pub struct Declaration {
     key: TokenNode,
     value: TokenNode,

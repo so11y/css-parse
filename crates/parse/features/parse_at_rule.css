@@ -1,0 +1,9 @@
+@media (min-width: 576px) {
+  .container {
+    max-width: 540px;
+  }
+}
+
+col-5 {
+  flex: 0 0 auto;
+}

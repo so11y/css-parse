@@ -1,99 +1,25 @@
 Root {
     children: [
         AtRule {
-            selector: TokenNode {
-                source: "@function good(value)",
-                loc: PositionLoc {
-                    start: Position {
-                        offset: 0,
-                        line: 0,
-                        column: 0,
-                    },
-                    end: Position {
-                        offset: 21,
-                        line: 0,
-                        column: 21,
-                    },
-                },
-                is_syntax: false,
-            },
+            selector: '@media (min-width: 576px)',
             children: [
-                AtRule {
-                    selector: TokenNode {
-                        source: "@let v = value",
-                        loc: PositionLoc {
-                            start: Position {
-                                offset: 39,
-                                line: 1,
-                                column: 16,
-                            },
-                            end: Position {
-                                offset: 53,
-                                line: 1,
-                                column: 30,
-                            },
-                        },
-                        is_syntax: false,
-                    },
-                    children: [],
-                },
-                AtRule {
-                    selector: TokenNode {
-                        source: "@if(v < 50)",
-                        loc: PositionLoc {
-                            start: Position {
-                                offset: 71,
-                                line: 2,
-                                column: 16,
-                            },
-                            end: Position {
-                                offset: 82,
-                                line: 2,
-                                column: 27,
-                            },
-                        },
-                        is_syntax: false,
-                    },
+                Rule {
+                    selector: '.container',
                     children: [
-                        AtRule {
-                            selector: TokenNode {
-                                source: "@return 'padding-top:50px'",
-                                loc: PositionLoc {
-                                    start: Position {
-                                        offset: 104,
-                                        line: 3,
-                                        column: 20,
-                                    },
-                                    end: Position {
-                                        offset: 130,
-                                        line: 3,
-                                        column: 46,
-                                    },
-                                },
-                                is_syntax: false,
-                            },
-                            children: [],
+                        Declaration {
+                            key: 'max-width',
+                            value: '540px',
                         },
                     ],
                 },
-                AtRule {
-                    selector: TokenNode {
-                        source: "@return 'padding-top:'+ v +'px'",
-                        loc: PositionLoc {
-                            start: Position {
-                                offset: 166,
-                                line: 5,
-                                column: 16,
-                            },
-                            end: Position {
-                                offset: 197,
-                                line: 5,
-                                column: 47,
-                            },
-                        },
-                        is_syntax: false,
-                    },
-                    children: [],
+            ],
+        },
+        Rule {
+            selector: 'col-5',
+            children: [
+                Declaration {
+                    key: 'flex',
+                    value: '0 0 auto',
                 },
             ],
         },

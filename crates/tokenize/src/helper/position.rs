@@ -1,5 +1,7 @@
 
-#[derive(Clone,Debug,Copy)]
+
+use serde::Serialize;
+#[derive(Clone,Debug,Copy,Serialize)]
 pub struct Position {
     pub offset: i32,
     pub line:i32,

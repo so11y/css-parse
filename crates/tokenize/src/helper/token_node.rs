@@ -1,7 +1,10 @@
 #![allow(unused_variables, dead_code)]
 
 
+use std::fmt;
+
 use super::position::Position;
+use serde::Serialize;
 
 #[derive(Debug, PartialEq)]
 #[repr(u8)]
@@ -55,17 +58,23 @@ impl Into<char> for Token {
     }
 }
 
-#[derive(Clone, Default, Debug)]
+#[derive(Clone, Default, Debug,Serialize)]
 pub struct PositionLoc {
     pub start: Position,
     pub end: Position,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone,Serialize)]
 pub struct TokenNode {
     pub source: String,
     pub loc: PositionLoc,
     pub is_syntax: bool,
+}
+
+impl fmt::Debug for TokenNode {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f,"'{}'",self.source.trim())
+    }
 }
 
 impl TokenNode {

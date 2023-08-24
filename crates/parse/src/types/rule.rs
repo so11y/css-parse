@@ -1,6 +1,8 @@
 use crate::types::RuleOrAtRuleOrDecl;
 use tokenize::TokenNode;
-#[derive(Debug)]
+
+use serde::Serialize;
+#[derive(Debug,Serialize)]
 pub struct Rule {
     selector: TokenNode,
     children: Vec<RuleOrAtRuleOrDecl>,

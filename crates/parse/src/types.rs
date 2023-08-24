@@ -1,6 +1,7 @@
 mod at_rule;
 mod decl;
 mod rule;
+use serde::Serialize;
 
 use std::fmt::{self};
 
@@ -8,6 +9,7 @@ pub use at_rule::AtRule;
 pub use decl::Declaration;
 pub use rule::Rule;
 
+#[derive(Serialize)]
 pub enum RuleOrAtRuleOrDecl {
     Rule(Rule),
     AtRule(AtRule),
@@ -24,7 +26,7 @@ impl fmt::Debug for RuleOrAtRuleOrDecl {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug,Serialize)]
 pub struct Root {
     pub children: Vec<RuleOrAtRuleOrDecl>,
 }

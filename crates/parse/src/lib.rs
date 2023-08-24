@@ -3,15 +3,20 @@ mod types;
 
 use crate::types::{AtRule, Declaration, Root, Rule, RuleOrAtRuleOrDecl};
 
+use serde::Serialize;
 use tokenize::{Token, TokenNode, Tokenize};
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
+pub fn parse_css(v: String) -> JsValue {
+    serde_wasm_bindgen::to_value(&Parser::new(String::from(v)).parse_root()).unwrap()
+}
+
+#[derive(Serialize, Debug)]
 pub struct Parser {
     tokenize: Tokenize,
     bucket: Vec<TokenNode>,
 }
-
 
 impl Parser {
     pub fn new(input: String) -> Self {
@@ -51,15 +56,15 @@ impl Parser {
             if let Some(current_token) = self.tokenize.current_token.to_owned() {
                 let builder_node = match current_token.maybe_syntax() {
                     Some(token) => match token {
-                        Token::OpenCurly => self.parse_rule(is_at),
+                        Token::OpenCurly => {
+                            let rule = self.parse_rule(is_at);
+                            is_at = false;
+                            rule
+                        }
                         Token::AT => {
                             is_at = true;
                             self.bucket.clear();
                             self.bucket.push(current_token);
-                            None
-                        }
-                        Token::CloseCurly => {
-                            self.bucket.clear();
                             None
                         }
                         Token::SEMICOLON => {
@@ -127,7 +132,7 @@ impl Parser {
 #[cfg(test)]
 mod test {
     use super::*;
-    use std::fs::{self};
+    use std::{fs::{self}, env};
     #[test]
     fn test_parse() {
         let input = String::from(
@@ -152,7 +157,7 @@ mod test {
         // fs::write(
         //     "./src/__snapshots__/test_parse.snap",
         //     format!("{:#?}", root),
-        // );
+        // )
         // .unwrap();
     }
 
@@ -171,14 +176,13 @@ mod test {
         // fs::write(
         //     "./src/__snapshots__/parse_define.snap",
         //     format!("{:#?}", root),
-        // );
+        // ).unwrap();
     }
     #[test]
     fn prase_colon() {
         let input = String::from(
             "input:after{
                 color:red;
-
                 .wow::before{
                     color:blue;
                 }
@@ -194,22 +198,16 @@ mod test {
         //  fs::write(
         //     "./src/__snapshots__/prase_colon.snap",
         //     format!("{:#?}", root),
-        // );
+        // ).unwrap();
     }
 
     #[test]
     fn parse_at_rule() {
-        let input = String::from(
-            "@function good(value){
-                @let v = value;
-                @if(v < 50){
-                    @return 'padding-top:50px';
-                }
-                @return 'padding-top:'+ v +'px';
-            }
-        ",
-        );
-        let mut parser = Parser::new(input);
+        // let current_dir = env::current_dir().expect("Failed to get current directory");
+        // let file_path = current_dir.join("crates/parse/features/parse_at_rule.css");
+        //"./features/parse_at_rule.css"
+        let css = fs::read_to_string("./features/parse_at_rule.css").unwrap();
+        let mut parser = Parser::new(css);
         let root = parser.parse_root();
 
         let test_parse = fs::read_to_string("./src/__snapshots__/parse_at_rule.snap").unwrap();
