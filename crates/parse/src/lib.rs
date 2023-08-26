@@ -1,8 +1,10 @@
 #![allow(dead_code)]
+mod parse_helper_context;
 mod types;
 
 use crate::types::{AtRule, Declaration, Root, Rule, RuleOrAtRuleOrDecl};
 
+use parse_helper_context::ParseHelperContext;
 use serde::Serialize;
 use tokenize::{Token, TokenNode, Tokenize};
 use wasm_bindgen::prelude::*;
@@ -41,57 +43,24 @@ impl Parser {
         Some(RuleOrAtRuleOrDecl::Rule(Rule::new(selector, children)))
     }
 
-    fn finish_at_node(&mut self) -> Option<RuleOrAtRuleOrDecl> {
-        Some(RuleOrAtRuleOrDecl::AtRule(AtRule::new(
-            self.merge_selector(),
-            Vec::new(),
-        )))
-    }
-
     fn parse_rule_or_at(&mut self) -> Vec<RuleOrAtRuleOrDecl> {
-        self.bucket.clear();
-        let mut children = Vec::new();
-        let mut is_at = false;
-        while !self.tokenize.is_eof() && !self.tokenize.when(Some(Token::CloseCurly)) {
-            if let Some(current_token) = self.tokenize.current_token.to_owned() {
+        let mut parse_helper_context = ParseHelperContext::new(self);
+
+        while parse_helper_context.is_close_curly() {
+            if let Some(current_token) = parse_helper_context.get_current_token() {
                 let builder_node = match current_token.maybe_syntax() {
                     Some(token) => match token {
-                        Token::OpenCurly => {
-                            let rule = self.parse_rule(is_at);
-                            is_at = false;
-                            rule
-                        }
-                        Token::AT => {
-                            is_at = true;
-                            self.bucket.clear();
-                            self.bucket.push(current_token);
-                            None
-                        }
-                        Token::SEMICOLON => {
-                            if is_at {
-                                self.finish_at_node()
-                            } else {
-                                self.parse_decl()
-                            }
-                        }
-                        _ => {
-                            self.bucket.push(current_token);
-                            None
-                        }
+                        Token::OpenCurly => parse_helper_context.handle_open_curly(),
+                        Token::SEMICOLON => parse_helper_context.handle_semicolon(),
+                        Token::AT => parse_helper_context.handle_at(),
+                        _ => parse_helper_context.handle_default(),
                     },
-                    None => {
-                        self.bucket.push(current_token);
-                        None
-                    }
+                    None => parse_helper_context.handle_default(),
                 };
-                if builder_node.is_some() {
-                    children.push(builder_node.unwrap());
-                    is_at = false;
-                }
+                parse_helper_context.push_node(builder_node);
             }
         }
-        self.bucket.clear();
-        return children;
+        return parse_helper_context.to_owned_node();
     }
 
     fn parse_decl(&mut self) -> Option<RuleOrAtRuleOrDecl> {
@@ -132,7 +101,10 @@ impl Parser {
 #[cfg(test)]
 mod test {
     use super::*;
-    use std::{fs::{self}, env};
+    use std::{
+        env,
+        fs::{self},
+    };
     #[test]
     fn test_parse() {
         let input = String::from(

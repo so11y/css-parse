@@ -9,9 +9,8 @@ use serde::Serialize;
 #[derive(Debug, PartialEq)]
 #[repr(u8)]
 pub enum Token {
-    SingleQuote = b'\'',
-    DoubleQuote = b'"',
     BACKSLASH = b'\\',
+    STAR= b'*',
     SLASH = b'/',
     NEWLINE = b'\n',
     SPACE = b' ',

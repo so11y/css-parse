@@ -9,7 +9,7 @@ pub use at_rule::AtRule;
 pub use decl::Declaration;
 pub use rule::Rule;
 
-#[derive(Serialize)]
+#[derive(Serialize,Clone)]
 pub enum RuleOrAtRuleOrDecl {
     Rule(Rule),
     AtRule(AtRule),
