@@ -6,26 +6,20 @@ use prase::{AtRule, Declaration, Root, Rule, RuleOrAtRuleOrDecl};
 pub struct Visit {
     plugins: Vec<Box<dyn PluginImpl>>,
 }
-
- impl Visit {
+// 后面考虑如何把这里的遍历作为统一
+// 并且添加exit的功能，现在还不知道怎么写
+// 并且添加context的功能，实现父子关系的传递,和树的修改功能
+impl Visit {
     pub fn new(p: Vec<Box<dyn PluginImpl>>) -> Visit {
         Self { plugins: p }
     }
 
     pub fn visit_root(&mut self, root: &mut Root) {
-        let mut exit_plugins: Vec<Box<dyn FnMut()>> = Vec::new();
         for plugin in &mut self.plugins {
-            let exit = plugin.root(root);
-            if exit.is_some() {
-                exit_plugins.push(exit.unwrap());
-            }
+            plugin.root(root)
         }
         root.children.iter_mut().for_each(|node| {
             self.visit_node(node);
-        });
-
-        exit_plugins.iter_mut().for_each(|f| {
-            f();
         });
     }
 
@@ -38,51 +32,26 @@ pub struct Visit {
     }
 
     pub fn visit_rule(&mut self, rule: &mut Rule) {
-        let mut exit_plugins: Vec<Box<dyn FnMut()>> = Vec::new();
         for plugin in &mut self.plugins {
-            let exit = plugin.rule(rule);
-            if exit.is_some() {
-                exit_plugins.push(exit.unwrap());
-            }
+            plugin.rule(rule);
         }
         rule.children.iter_mut().for_each(|node| {
             self.visit_node(node);
         });
-
-        exit_plugins.iter_mut().for_each(|f| {
-            f();
-        });
     }
 
     pub fn visit_at_rule(&mut self, at_rule: &mut AtRule) {
-        let mut exit_plugins: Vec<Box<dyn FnMut()>> = Vec::new();
         for plugin in &mut self.plugins {
-            let exit = plugin.at_rule(at_rule);
-            if exit.is_some() {
-                exit_plugins.push(exit.unwrap());
-            }
+            plugin.at_rule(at_rule);
         }
         at_rule.children.iter_mut().for_each(|node| {
             self.visit_node(node);
         });
-
-        exit_plugins.iter_mut().for_each(|f| {
-            f();
-        });
     }
 
     pub fn visit_decl(&mut self, decl: &mut Declaration) {
-        let mut exit_plugins: Vec<Box<dyn FnMut()>> = Vec::new();
         for plugin in &mut self.plugins {
-            let exit = plugin.decl(decl);
-            if exit.is_some() {
-                exit_plugins.push(exit.unwrap());
-            }
+            plugin.decl(decl);
         }
-        exit_plugins.iter_mut().for_each(|f| {
-            f();
-        });
     }
 }
-
-

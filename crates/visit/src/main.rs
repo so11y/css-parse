@@ -4,14 +4,12 @@ use visit::{PluginImpl, Visit};
 struct MyPlugin;
 
 impl PluginImpl for MyPlugin {
-    fn root(&mut self, r: &mut Root) -> Option<Box<dyn FnMut()>> {
+    fn root(&mut self, r: &mut Root) {
         println!("root,{}", r.children.len());
-        None
     }
-    fn rule(&mut self, r: &mut prase::Rule) -> Option<Box<dyn FnMut()>> {
+    fn rule(&mut self, r: &mut prase::Rule) {
         println!("{:?}", r);
         r.selector.source = ".qqq".into();
-        None
     }
 }
 

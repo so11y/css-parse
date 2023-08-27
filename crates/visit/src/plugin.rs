@@ -1,21 +1,9 @@
 use prase::{AtRule, Declaration, Root, Rule};
 
-
 pub trait PluginImpl {
-    fn root(&mut self, r: &mut Root) -> Option<Box<dyn FnMut()>> {
-        None
-    }
-    fn rule(&mut self, r: &mut Rule) -> Option<Box<dyn FnMut()>> {
-        None
-    }
-    fn at_rule(&mut self, r: &mut AtRule) -> Option<Box<dyn FnMut()>> {
-        None
-    }
-    fn decl(&mut self, r: &mut Declaration) -> Option<Box<dyn FnMut()>> {
-        None
-    }
+    fn root(&mut self, _r: &mut Root) {}
+    fn rule(&mut self, _r: &mut Rule) {}
+    fn at_rule(&mut self, _r: &mut AtRule) {}
+    fn decl(&mut self, _r: &mut Declaration) {}
 }
 
-fn x() {
-    // let pl1 = Plugin::<_, _, _, _>::default();
-}
