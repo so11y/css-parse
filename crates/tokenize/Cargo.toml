@@ -10,3 +10,4 @@ serde-wasm-bindgen = "0.4"
 [lib]
 name = "tokenize"
 path = "src/lib.rs"
+

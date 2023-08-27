@@ -2,7 +2,7 @@
 mod parse_helper_context;
 mod types;
 
-use crate::types::{AtRule, Declaration, Root, Rule, RuleOrAtRuleOrDecl};
+pub use crate::types::{AtRule, Declaration, Root, Rule, RuleOrAtRuleOrDecl};
 
 use parse_helper_context::ParseHelperContext;
 use serde::Serialize;

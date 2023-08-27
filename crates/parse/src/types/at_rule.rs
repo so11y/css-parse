@@ -3,8 +3,8 @@ use tokenize::TokenNode;
 use serde::Serialize;
 #[derive(Debug,Serialize,Clone)]
 pub struct AtRule {
-    selector: TokenNode,
-    children: Vec<RuleOrAtRuleOrDecl>,
+   pub  selector: TokenNode,
+   pub  children: Vec<RuleOrAtRuleOrDecl>,
 }
 
 impl AtRule {

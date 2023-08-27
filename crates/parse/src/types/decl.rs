@@ -1,10 +1,9 @@
-
-use tokenize::TokenNode;
 use serde::Serialize;
-#[derive(Debug,Clone,Serialize)]
+use tokenize::TokenNode;
+#[derive(Debug, Clone, Serialize)]
 pub struct Declaration {
-    key: TokenNode,
-    value: TokenNode,
+    pub key: TokenNode,
+    pub value: TokenNode,
 }
 
 impl Declaration {
@@ -12,4 +11,3 @@ impl Declaration {
         Self { key, value }
     }
 }
-
