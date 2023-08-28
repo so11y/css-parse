@@ -10,10 +10,10 @@ pub use decl::Declaration;
 pub use rule::Rule;
 
 #[derive(Serialize,Clone)]
-pub enum RuleOrAtRuleOrDecl {
-    Rule(Rule),
-    AtRule(AtRule),
-    Declaration(Declaration),
+pub enum RuleOrAtRuleOrDecl<T = Rule,At = AtRule,D = Declaration> {
+    Rule(T),
+    AtRule(At),
+    Declaration(D),
 }
 
 impl fmt::Debug for RuleOrAtRuleOrDecl {

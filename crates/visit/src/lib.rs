@@ -16,9 +16,11 @@ impl Visit {
         for plugin in &mut self.plugins {
             node.call_plugin(plugin);
         }
-        let children = node.visit_children().unwrap();
-        children.iter_mut().for_each(|node| {
-            self.visit_node(node);
-        });
+        let children = node.visit_children();
+        if let Some(children) = children {
+            children.iter_mut().for_each(|node| {
+                self.visit_node(node);
+            });
+        }
     }
 }
