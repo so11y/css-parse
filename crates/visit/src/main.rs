@@ -26,7 +26,7 @@ fn main() {
 
     let mut v = Visit::new(vec![Box::new(MyPlugin)]);
 
-    v.visit_root(&mut root);
+    v.visit_node(&mut root);
 
     println!("{:?}", root);
 }
